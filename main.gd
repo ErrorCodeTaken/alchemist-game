@@ -83,7 +83,7 @@ func _on_deliver_pressed() -> void:
 		selected_plant = ""
 		actions.clear()
 		$SelectionLabel.text = "Actions: None"
-		await get_tree().create_timer(1.5).timeout
+		await get_tree().create_timer(3).timeout
 		show_request()
 		is_busy = false
 		return
@@ -114,7 +114,7 @@ func _on_deliver_pressed() -> void:
 		actions.clear()
 		$SelectionLabel.text = "Actions: None"
 
-		await get_tree().create_timer(1.5).timeout
+		await get_tree().create_timer(3).timeout
 		show_request()
 		is_busy = false
 		return
@@ -123,7 +123,7 @@ func _on_deliver_pressed() -> void:
 	selected_plant = ""
 	actions.clear()
 	$SelectionLabel.text = "Selected: None"
-	await get_tree().create_timer(1.5).timeout
+	await get_tree().create_timer(3).timeout
 	show_request()
 	is_busy = false
 		
