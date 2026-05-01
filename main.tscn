@@ -1,0 +1,65 @@
+[gd_scene format=3 uid="uid://d0av7yokc835f"]
+
+[ext_resource type="Script" uid="uid://2sqr1suwjj4a" path="res://main.gd" id="1_ig7tw"]
+
+[node name="Control" type="Control" unique_id=1766719362]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ig7tw")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1259607359]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.14509805, 0.74509805, 0.5254902, 1)
+
+[node name="Label" type="Label" parent="." unique_id=1224799257]
+layout_mode = 0
+offset_left = 464.0
+offset_top = 28.0
+offset_right = 660.0
+offset_bottom = 51.0
+text = "Customer: My head hurts"
+
+[node name="PlantA" type="Button" parent="." unique_id=793975393]
+layout_mode = 0
+offset_left = 103.0
+offset_top = 585.0
+offset_right = 166.0
+offset_bottom = 616.0
+text = "Plant A"
+
+[node name="PlantB" type="Button" parent="." unique_id=402672413]
+layout_mode = 0
+offset_left = 175.0
+offset_top = 586.0
+offset_right = 238.0
+offset_bottom = 617.0
+text = "Plant B"
+
+[node name="Deliver" type="Button" parent="." unique_id=836637567]
+layout_mode = 0
+offset_left = 528.0
+offset_top = 585.0
+offset_right = 591.0
+offset_bottom = 616.0
+text = "Deliver"
+
+[node name="SelectionLabel" type="Label" parent="." unique_id=451169417]
+layout_mode = 0
+offset_left = 500.0
+offset_top = 63.0
+offset_right = 616.0
+offset_bottom = 86.0
+text = "Selected: None"
+
+[connection signal="pressed" from="PlantA" to="." method="_on_plant_a_pressed"]
+[connection signal="pressed" from="PlantB" to="." method="_on_plant_b_pressed"]
+[connection signal="pressed" from="Deliver" to="." method="_on_deliver_pressed"]
