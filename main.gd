@@ -50,10 +50,12 @@ func _on_deliver_pressed() -> void:
 
 	is_busy = true
 	
-	var correct = false
+	var result = "This does not seem suited for the customer's symptoms."
 	
+	#Willow Bark/Plant A - Headache
 	if current_request == "headache" and selected_plant == "A":
 		var has_boil = "boil" in actions
+		var has_crush = "crush" in actions
 		var great = false
 	
 		if has_boil:
@@ -67,14 +69,17 @@ func _on_deliver_pressed() -> void:
 			if crushed_before:
 				great = true
 	
-		if has_boil:
-			if great:
-				$Label.text = "Great choice!"
-			else:
-				$Label.text = "It helped, but weak"
+		if great:
+			result = "Strong treatment. Crushing before boiling released more from the bark."
+		elif has_boil: 
+			result = "The tea helped, but it feels weak. Maybe the bark needs preparing first."
+		elif has_crush:
+			result = "The bark seems useful, but crushing alone did not release enough."
 		else:
-			$Label.text = "That didn't help..."
-	
+			result = "The bark seems to help a little, but it is too weak raw."
+			
+		$Label.text = result	
+		
 		selected_plant = ""
 		actions.clear()
 		$SelectionLabel.text = "Actions: None"
@@ -83,28 +88,25 @@ func _on_deliver_pressed() -> void:
 		is_busy = false
 		return
 	
+	#Glassleaf / Plant B - Rash
 	if current_request == "rash" and selected_plant == "B":
 		var has_cut = "cut" in actions
 		var has_crush = "crush" in actions
 		var has_boil = "boil" in actions
 
-		var result = "That didn't help..."
-
 		if has_boil:
-			# Boiling damages aloe
 			if has_cut:
-				result = "It helped, but weak"
+				result = "Boiling damaged the gel. It helped a little, but lost most of its soothing effect."
 			else:
-				result = "That didn't help..."
+				result = "Boiling this plant did not seem useful."
+		elif has_cut and has_crush:
+			result = "Good paste. The gel spread evenly over the rash."
+		elif has_cut:
+			result = "The exposed gel calmed the skin, but only slightly."
+		elif has_crush:
+			result = "The crushed leaf made a messy paste, but it was not very effective."
 		else:
-			if has_cut and has_crush:
-				result = "Good treatment"
-			elif has_cut:
-				result = "It helped"
-			elif has_crush:
-				result = "That didn't help..."
-			else:
-				result = "That didn't help..."
+			result = "This plant seems suited for skin, but it needs to be cut first."
 
 		$Label.text = result
 
