@@ -39,6 +39,23 @@ func _on_plant_b_pressed() -> void:
 	selected_plant = "B"
 	$SelectionLabel.text = "Selected: Plant B"
 
+func get_action_history_text() -> String:
+	if actions.size() == 0:
+		return "You delivered it raw."
+
+	var readable_actions = []
+
+	for action in actions:
+		if action == "cut":
+			readable_actions.append("cut it")
+		elif action == "crush":
+			readable_actions.append("crushed it")
+		elif action == "boil":
+			readable_actions.append("boiled it")
+
+	return "You " + ", then ".join(readable_actions) + "."
+
+
 
 func _on_deliver_pressed() -> void:
 	if is_busy:
@@ -78,7 +95,7 @@ func _on_deliver_pressed() -> void:
 		else:
 			result = "The bark seems to help a little, but it is too weak raw."
 			
-		$Label.text = result	
+		$Label.text = result + "\n" + get_action_history_text()
 		
 		selected_plant = ""
 		actions.clear()
@@ -108,7 +125,7 @@ func _on_deliver_pressed() -> void:
 		else:
 			result = "This plant seems suited for skin, but it needs to be cut first."
 
-		$Label.text = result
+		$Label.text = result + "\n" + get_action_history_text()
 
 		selected_plant = ""
 		actions.clear()
