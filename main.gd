@@ -112,10 +112,7 @@ func _on_deliver_pressed() -> void:
 		var has_boil = "boil" in actions
 
 		if has_boil:
-			if has_cut:
-				result = "Boiling damaged the gel. It helped a little, but lost most of its soothing effect."
-			else:
-				result = "Boiling this plant did not seem useful."
+			result = "The heat ruined the gel. It became watery and lost its soothing effect."
 		elif has_cut and has_crush:
 			result = "Good paste. The gel spread evenly over the rash."
 		elif has_cut:
