@@ -71,38 +71,43 @@ func _on_deliver_pressed() -> void:
 	
 	var result = "This does not seem suited for the customer's symptoms."
 	
-	#Willow Bark/Plant A - Headache
+	# Willow Bark / Plant A - Headache
 	if current_request == "headache" and selected_plant == "A":
-		var has_boil = "boil" in actions
+		var has_cut = "cut" in actions
 		var has_crush = "crush" in actions
-		var great = false
+		var has_boil = "boil" in actions
 	
 		if has_boil:
 			var boil_index = actions.find("boil")
-			var crushed_before = false
+			var cut_before_boil = false
+			var crush_before_boil = false
 		
 			for i in range(boil_index):
+				if actions[i] == "cut":
+					cut_before_boil = true
 				if actions[i] == "crush":
-					crushed_before = true
+					crush_before_boil = true
 		
-			if crushed_before:
-				great = true
-	
-		if great:
-			result = "Strong treatment. Crushing before boiling released more from the bark."
-		elif has_boil: 
-			result = "The tea helped, but it feels weak. Maybe the bark needs preparing first."
+			if cut_before_boil and crush_before_boil:
+				result = "Strong treatment. Cutting and crushing before boiling released more from the bark."
+			elif cut_before_boil:
+				result = "The rough tea helped, but the bark could be prepared better."
+			else:
+				result = "The weak infusion helped a little, but it was poorly prepared."
 		elif has_crush:
-			result = "The bark seems useful, but crushing alone did not release enough."
+			result = "The crushed bark seems useful, but it needs to be boiled to release enough."
+		elif has_cut:
+			result = "The cut bark seems useful, but it is still too weak raw."
 		else:
 			result = "The bark seems to help a little, but it is too weak raw."
-			
+	
 		$Label.text = result + "\n" + get_action_history_text()
-		
+	
 		selected_plant = ""
 		actions.clear()
 		$ItemLabel.text = "Current Item: None"
 		$SelectionLabel.text = "Actions: None"
+	
 		await get_tree().create_timer(3).timeout
 		show_request()
 		is_busy = false
@@ -137,12 +142,18 @@ func _on_deliver_pressed() -> void:
 		return
 	
 		
+	# Wrong plant / wrong treatment fallback
+	$Label.text = result + "\n" + get_action_history_text()
+
 	selected_plant = ""
 	actions.clear()
-	$SelectionLabel.text = "Selected: None"
+	$ItemLabel.text = "Current Item: None"
+	$SelectionLabel.text = "Actions: None"
+
 	await get_tree().create_timer(3).timeout
 	show_request()
 	is_busy = false
+	return
 		
 
 func update_item_label() -> void:
