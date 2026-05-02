@@ -186,7 +186,8 @@ func update_item_label() -> void:
 			$ItemLabel.text = "Current Item: Glassleaf"
 
 
-func _on_crush_pressed() -> void:
+
+func apply_action(action_name: String) -> void:
 	if is_busy:
 		return
 	
@@ -194,30 +195,23 @@ func _on_crush_pressed() -> void:
 		$SelectionLabel.text = "Select a plant first"
 		return
 	
-	if not "cut" in actions:
+	if action_name == "crush" and not "cut" in actions:
 		$SelectionLabel.text = "You need to cut it first"
 		return
 	
-	actions.append("crush")
+	actions.append(action_name)
 	$SelectionLabel.text = "Actions: " + ", ".join(actions).capitalize()
 	update_item_label()
+
+func _on_crush_pressed() -> void:
+	apply_action("crush")
 
 
 func _on_boil_pressed() -> void:
-	if is_busy:
-		return
-	
-	actions.append("boil")
-	$SelectionLabel.text = "Actions: " + ", ".join(actions).capitalize()
-	update_item_label()
+	apply_action("boil")
 
 func _on_cut_pressed() -> void:
-	if is_busy:
-		return
-	
-	actions.append("cut")
-	$SelectionLabel.text = "Actions: " + ", ".join(actions).capitalize()
-	update_item_label()
+	apply_action("cut")
 
 func _on_clear_actions_pressed() -> void:
 	if is_busy:
