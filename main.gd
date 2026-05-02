@@ -134,6 +134,7 @@ func _on_deliver_pressed() -> void:
 
 		selected_plant = ""
 		actions.clear()
+		$ItemLabel.text = "Current Item: None"
 		$SelectionLabel.text = "Actions: None"
 
 		await get_tree().create_timer(3).timeout
@@ -223,4 +224,5 @@ func _on_clear_actions_pressed() -> void:
 		return
 	
 	actions.clear()
+	$ItemLabel.text = "Current Item: None"
 	$SelectionLabel.text = "Actions: None"
