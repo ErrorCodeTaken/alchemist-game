@@ -22,11 +22,18 @@ color = Color(0.14509805, 0.74509805, 0.5254902, 1)
 
 [node name="Label" type="Label" parent="." unique_id=1224799257]
 layout_mode = 0
-offset_left = 464.0
-offset_top = 28.0
-offset_right = 660.0
-offset_bottom = 51.0
+offset_left = 307.0
+offset_top = 39.0
+offset_right = 503.0
+offset_bottom = 62.0
 text = "Customer: My head hurts"
+
+[node name="FeedbackLabel" type="Label" parent="." unique_id=688253391]
+layout_mode = 0
+offset_left = 304.0
+offset_top = 105.0
+offset_right = 500.0
+offset_bottom = 128.0
 
 [node name="PlantA" type="Button" parent="." unique_id=793975393]
 layout_mode = 0
@@ -101,6 +108,14 @@ offset_right = 649.0
 offset_bottom = 404.0
 text = "Current Item: None"
 
+[node name="Burn" type="Button" parent="." unique_id=146588855]
+layout_mode = 0
+offset_left = 94.0
+offset_top = 513.0
+offset_right = 169.0
+offset_bottom = 544.0
+text = "Burn"
+
 [connection signal="pressed" from="PlantA" to="." method="_on_plant_a_pressed"]
 [connection signal="pressed" from="PlantB" to="." method="_on_plant_b_pressed"]
 [connection signal="pressed" from="Deliver" to="." method="_on_deliver_pressed"]
@@ -108,3 +123,4 @@ text = "Current Item: None"
 [connection signal="pressed" from="Boil" to="." method="_on_boil_pressed"]
 [connection signal="pressed" from="Cut" to="." method="_on_cut_pressed"]
 [connection signal="pressed" from="ClearActions" to="." method="_on_clear_actions_pressed"]
+[connection signal="pressed" from="Burn" to="." method="_on_test_pressed"]

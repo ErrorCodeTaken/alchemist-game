@@ -71,6 +71,17 @@ func _on_deliver_pressed() -> void:
 	
 	var result = "This does not seem suited for the customer's symptoms."
 	
+	if "burn" in actions:
+		$Label.text = "You cannot deliver this. It has been burned and ruined."
+		selected_plant = ""
+		actions.clear()
+		$ItemLabel.text = "Current Item: None"
+		$SelectionLabel.text = "Actions: None"
+		await get_tree().create_timer(3).timeout
+		show_request()
+		is_busy = false
+		return
+	
 	# Willow Bark / Plant A - Headache
 	if current_request == "headache" and selected_plant == "A":
 		var has_cut = "cut" in actions
@@ -159,7 +170,9 @@ func _on_deliver_pressed() -> void:
 
 func update_item_label() -> void:
 	if selected_plant == "A":
-		if "boil" in actions:
+		if "burn" in actions:
+			$ItemLabel.text = "Current Item: Burned Willow Bark"
+		elif "boil" in actions:
 			if actions.find("boil") == 0:
 				$ItemLabel.text = "Current Item: Weak Willow Infusion"
 			elif "crush" in actions:
@@ -176,7 +189,9 @@ func update_item_label() -> void:
 			$ItemLabel.text = "Current Item: Willow Bark"
 
 	elif selected_plant == "B":
-		if "boil" in actions:
+		if "burn" in actions:
+			$ItemLabel.text = "Current Item: Burned Glassleaf"
+		elif "boil" in actions:
 			$ItemLabel.text = "Current Item: Ruined Glassleaf Gel"
 		elif "crush" in actions:
 			$ItemLabel.text = "Current Item: Glassleaf Paste"
@@ -185,7 +200,54 @@ func update_item_label() -> void:
 		else:
 			$ItemLabel.text = "Current Item: Glassleaf"
 
+func test_current_item() -> void:
+	if is_busy:
+		return
+	
+	if selected_plant == "":
+		$FeedbackLabel.text = "You have nothing to test."
+		return
+	
+	if "burn" in actions:
+		$FeedbackLabel.text = "It has already been burned."
+		return
+	
+	actions.append("burn")
+	$SelectionLabel.text = "Actions: " + ", ".join(actions).capitalize()
+	update_item_label()
+	
+	# Willow
+	if selected_plant == "A":
+		var has_cut = "cut" in actions
+		var has_crush = "crush" in actions
+		
+		if has_crush:
+			$FeedbackLabel.text = "The crushed bark burns quickly. The smell is strong and medicinal. Your headache eases more noticeably."
+		elif has_cut:
+			$FeedbackLabel.text = "The cut bark burns slowly. A bitter smell rises. Your headache eases slightly."
+		else:
+			$FeedbackLabel.text = "The bark chars on the outside. The smell is faint. It feels like something is locked inside."
+	
+	# Glassleaf
+	elif selected_plant == "B":
+		$FeedbackLabel.text = "The leaf blackens and curls. Whatever was useful in it is lost."
 
+func show_action_feedback(action_name: String) -> void:
+	if selected_plant == "A":
+		if action_name == "cut":
+			$FeedbackLabel.text = "You cut into the willow bark. The inside has a dry, bitter smell."
+		elif action_name == "crush":
+			$FeedbackLabel.text = "You crush the willow bark. The scent becomes stronger, but it still feels hard to use raw."
+		elif action_name == "boil":
+			$FeedbackLabel.text = "The willow darkens as it heats."
+
+	elif selected_plant == "B":
+		if action_name == "cut":
+			$FeedbackLabel.text = "You cut the glassleaf open. A cool gel seeps out."
+		elif action_name == "crush":
+			$FeedbackLabel.text = "You crush the opened glassleaf into a smooth, soothing paste."
+		elif action_name == "boil":
+			$FeedbackLabel.text = "The glassleaf gel thins and loses its texture."
 
 func apply_action(action_name: String) -> void:
 	if is_busy:
@@ -202,10 +264,13 @@ func apply_action(action_name: String) -> void:
 	actions.append(action_name)
 	$SelectionLabel.text = "Actions: " + ", ".join(actions).capitalize()
 	update_item_label()
+	show_action_feedback(action_name)
 
+func _on_test_pressed() -> void:
+	test_current_item()
+	
 func _on_crush_pressed() -> void:
 	apply_action("crush")
-
 
 func _on_boil_pressed() -> void:
 	apply_action("boil")
