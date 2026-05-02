@@ -54,10 +54,10 @@ text = "Deliver"
 
 [node name="SelectionLabel" type="Label" parent="." unique_id=451169417]
 layout_mode = 0
-offset_left = 510.0
-offset_top = 425.0
-offset_right = 626.0
-offset_bottom = 448.0
+offset_left = 496.0
+offset_top = 427.0
+offset_right = 612.0
+offset_bottom = 450.0
 text = "Selected: None"
 
 [node name="Crush" type="Button" parent="." unique_id=2026100934]
@@ -92,6 +92,14 @@ offset_right = 67.0
 offset_bottom = 422.0
 text = "Clear
 "
+
+[node name="ItemLabel" type="Label" parent="." unique_id=972129688]
+layout_mode = 0
+offset_left = 499.0
+offset_top = 381.0
+offset_right = 649.0
+offset_bottom = 404.0
+text = "Current Item: None"
 
 [connection signal="pressed" from="PlantA" to="." method="_on_plant_a_pressed"]
 [connection signal="pressed" from="PlantB" to="." method="_on_plant_b_pressed"]

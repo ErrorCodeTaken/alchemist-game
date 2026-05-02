@@ -29,7 +29,8 @@ func _on_plant_a_pressed() -> void:
 		return
 	
 	selected_plant = "A"
-	$SelectionLabel.text = "Selected: Plant A"
+	$ItemLabel.text = "Current Item: Willow Bark"
+	$SelectionLabel.text = "Actions: None"
 
 
 func _on_plant_b_pressed() -> void:
@@ -37,7 +38,8 @@ func _on_plant_b_pressed() -> void:
 		return
 	
 	selected_plant = "B"
-	$SelectionLabel.text = "Selected: Plant B"
+	$ItemLabel.text = "Current Item: Glassleaf"
+	$SelectionLabel.text = "Actions: None"
 
 func get_action_history_text() -> String:
 	if actions.size() == 0:
@@ -99,6 +101,7 @@ func _on_deliver_pressed() -> void:
 		
 		selected_plant = ""
 		actions.clear()
+		$ItemLabel.text = "Current Item: None"
 		$SelectionLabel.text = "Actions: None"
 		await get_tree().create_timer(3).timeout
 		show_request()
@@ -142,13 +145,50 @@ func _on_deliver_pressed() -> void:
 	is_busy = false
 		
 
+func update_item_label() -> void:
+	if selected_plant == "A":
+		if "boil" in actions:
+			if actions.find("boil") == 0:
+				$ItemLabel.text = "Current Item: Weak Willow Infusion"
+			elif "crush" in actions:
+				$ItemLabel.text = "Current Item: Willow Tea"
+			elif "cut" in actions:
+				$ItemLabel.text = "Current Item: Rough Willow Tea"
+			else:
+				$ItemLabel.text = "Current Item: Weak Willow Infusion"
+		elif "crush" in actions:
+			$ItemLabel.text = "Current Item: Crushed Willow Bark"
+		elif "cut" in actions:
+			$ItemLabel.text = "Current Item: Willow Bark Cuttings"
+		else:
+			$ItemLabel.text = "Current Item: Willow Bark"
+
+	elif selected_plant == "B":
+		if "boil" in actions:
+			$ItemLabel.text = "Current Item: Ruined Glassleaf Gel"
+		elif "crush" in actions:
+			$ItemLabel.text = "Current Item: Glassleaf Paste"
+		elif "cut" in actions:
+			$ItemLabel.text = "Current Item: Opened Glassleaf"
+		else:
+			$ItemLabel.text = "Current Item: Glassleaf"
+
 
 func _on_crush_pressed() -> void:
 	if is_busy:
 		return
 	
+	if selected_plant == "":
+		$SelectionLabel.text = "Select a plant first"
+		return
+	
+	if not "cut" in actions:
+		$SelectionLabel.text = "You need to cut it first"
+		return
+	
 	actions.append("crush")
 	$SelectionLabel.text = "Actions: " + ", ".join(actions).capitalize()
+	update_item_label()
 
 
 func _on_boil_pressed() -> void:
@@ -157,7 +197,7 @@ func _on_boil_pressed() -> void:
 	
 	actions.append("boil")
 	$SelectionLabel.text = "Actions: " + ", ".join(actions).capitalize()
-
+	update_item_label()
 
 func _on_cut_pressed() -> void:
 	if is_busy:
@@ -165,7 +205,7 @@ func _on_cut_pressed() -> void:
 	
 	actions.append("cut")
 	$SelectionLabel.text = "Actions: " + ", ".join(actions).capitalize()
-
+	update_item_label()
 
 func _on_clear_actions_pressed() -> void:
 	if is_busy:
