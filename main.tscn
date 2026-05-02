@@ -41,15 +41,15 @@ offset_left = 103.0
 offset_top = 585.0
 offset_right = 166.0
 offset_bottom = 616.0
-text = "Plant A"
+text = "Willow Bark"
 
 [node name="PlantB" type="Button" parent="." unique_id=402672413]
 layout_mode = 0
-offset_left = 175.0
+offset_left = 216.0
 offset_top = 586.0
-offset_right = 238.0
+offset_right = 294.0
 offset_bottom = 617.0
-text = "Plant B"
+text = "Glassleaf"
 
 [node name="Deliver" type="Button" parent="." unique_id=836637567]
 layout_mode = 0
